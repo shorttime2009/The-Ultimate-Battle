@@ -1,0 +1,93 @@
+local Title = "The Ultimate Battle Script"
+local Author = "Galaad"
+
+local ESP = false
+local Aimbot = false
+local SafeAimbot = false
+local Wallhack = false
+
+local Players = game:GetService("Players")
+
+local function ESP()
+    for _, Player in pairs(Players:GetPlayers()) do
+        if Player ~= Players.LocalPlayer then
+            local Character = Player.Character
+            if Character then
+                local RootPart = Character:WaitForChild("HumanoidRootPart")
+                if RootPart then
+                    RootPart.Color = Color3.fromRGB(255, 0, 0)
+                    RootPart.Name = Player.Name
+                end
+            end
+        end
+    end
+end
+
+local function Aimbot()
+    if ESP then
+        local ClosestPlayer = Players:GetClosestPlayerTo(Players.LocalPlayer.Character.HumanoidRootPart.Position)
+        if ClosestPlayer then
+            Players.LocalPlayer.Character.HumanoidRootPart.CFrame = ClosestPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 1, 0)
+            Players.LocalPlayer.Mouse1Click()
+        end
+    end
+end
+
+local function SafeAimbot()
+    if ESP then
+        local ClosestPlayer = Players:GetClosestPlayerTo(Players.LocalPlayer.Character.HumanoidRootPart.Position)
+        Players.LocalPlayer.Character.HumanoidRootPart.CFrame = ClosestPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 0.5, 0)
+        Players.LocalPlayer.Mouse1Click()
+    end
+end
+
+local function Wallhack()
+    for _, Player in pairs(Players:GetPlayers()) do
+        if Player ~= Players.LocalPlayer then
+            local Character = Player.Character
+            if Character then
+                for _, Part in pairs(Character:GetDescendants()) do
+                    if Part:IsA("BasePart") then
+                        Part.CanCollide = false
+                    end
+                end
+            end
+        end
+    end
+end
+
+local Menu = Instance.new("Frame")
+Menu.Name = "Menu"
+Menu.Size = UDim2.new(0.2, 0, 0.2, 0)
+Menu.Position = UDim2.new(0.5, 0, 0.5, 0)
+Menu.Parent = Players.LocalPlayer.PlayerGui
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Text = Title
+TitleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+TitleLabel.Position = UDim2.new(0, 0, 0, 0)
+TitleLabel.Parent = Menu
+
+local AuthorLabel = Instance.new("TextLabel")
+AuthorLabel.Text = Author
+AuthorLabel.Size = UDim2.new(1, 0, 0.1, 0)
+AuthorLabel.Position = UDim2.new(0, 0, 0.2, 0)
+AuthorLabel.Parent = Menu
+
+local CloseButton = Instance.new("ImageButton")
+CloseButton.Size = UDim2.new(0.05, 0, 0.05, 0)
+CloseButton.Position = UDim2.new(0.95, 0, 0.95, 0)
+CloseButton.Image = "rbxassetid://7063962706"
+CloseButton.Parent = Menu
+CloseButton.MouseButton1Click:Connect(function()
+    Menu.Visible = false
+
+    local MenuButton = Instance.new("ImageButton")
+    MenuButton.Size = UDim2.new(0.05, 0, 0.05, 0)
+    MenuButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+    MenuButton.Image = "rbxassetid://7063962706"
+    MenuButton.Parent = Players.LocalPlayer.PlayerGui
+    MenuButton.MouseButton1Click:Connect(function()
+        Menu.Visible = true
+        MenuButton:Destroy()
+    end
